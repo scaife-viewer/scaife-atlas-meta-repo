@@ -10,7 +10,7 @@ services:
     build:
       context: ./scaife-viewer
       dockerfile: Dockerfile
-    command: "gunicorn sv_pdl.wsgi:application"
+    command: "gunicorn --log-file=- --preload sv_pdl.wsgi"
     depends_on:
       scaife-postgres:
         condition: service_healthy
