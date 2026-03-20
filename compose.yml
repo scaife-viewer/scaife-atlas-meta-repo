@@ -20,6 +20,8 @@ services:
     env_file: .env
     ports:
       - ${SCAIFE_VIEWER_PORT:-8000}:8000
+    volumes:
+      - sv-data:/sv-data
 
   scaife-postgres:
     image: postgres:18.3-alpine
@@ -66,3 +68,4 @@ services:
 volumes:
   sv-postgres-data:
   sv-elasticsearch-data:
+  sv-data:
