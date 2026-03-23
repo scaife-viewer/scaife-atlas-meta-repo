@@ -11,8 +11,26 @@ It has three main goals:
 ## Required Manual Interventions
 
 1. Update submodules: `git submodule update --remote`
-2. Upload ATLAS data gzip to host and unzip to `./new-atlas/server/`: `tar xzvf atlas-data.tar.gz -C new-atlas/server/`
+2. Upload [ATLAS data](#atlas-data) gzip to host and unzip to `./new-atlas/server/`: `tar xzvf atlas-data.tar.gz -C new-atlas/server/`
+3. Upload atlas_data from scaife-viewer to `./scaife-viewer/atlas_data`.
 
+### ATLAS data
+
+Eventually, we should automate the creation of the ATLAS data gzip,
+but we need to take a clearer inventory of where the data are coming
+from and how they're being transformed.
+
+For the time being, use existing ATLAS data by running
+
+```sh
+tar cvzf atlas-data.tar.gz data db
+```
+
+in the new-atlas repository.
+
+Don't forget to copy the `atlas_data` folder from your local copy
+in scaife-viewer to the server's version, as described in step 3
+above.
 
 ## LICENSE
 
