@@ -10,7 +10,7 @@ services:
     build:
       context: ./scaife-viewer
       dockerfile: Dockerfile
-    command: "gunicorn sv_pdl.wsgi:application"
+    command: "gunicorn --log-file=- --preload sv_pdl.wsgi"
     depends_on:
       scaife-postgres:
         condition: service_healthy
@@ -20,6 +20,8 @@ services:
     env_file: .env
     ports:
       - ${SCAIFE_VIEWER_PORT:-8000}:8000
+    volumes:
+      - sv-data:/sv-data
 
   scaife-postgres:
     image: postgres:18.3-alpine
@@ -35,6 +37,7 @@ services:
       timeout: 10s
     volumes:
       - sv-postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init-scaife-viewer-db.sql:/docker-entrypoint-initdb.d/init-scaife-viewer-db.sql
 
   scaife-elasticsearch:
     build:
@@ -65,3 +68,4 @@ services:
 volumes:
   sv-postgres-data:
   sv-elasticsearch-data:
+  sv-data:
