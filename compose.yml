@@ -37,7 +37,7 @@ services:
       timeout: 10s
     volumes:
       - sv-postgres-data:/var/lib/postgresql/data
-      - ./docker/postgres/init-scaife-viewer-db.sql:/docker-entrypoint-initdb.d/init-scaife-viewer-db.sql
+      - ./docker/postgres/init-scaife-viewer-db.sql:/docker-entrypoint-initdb.d/init-scaife-viewer-db.sql:z
 
   scaife-elasticsearch:
     build:
