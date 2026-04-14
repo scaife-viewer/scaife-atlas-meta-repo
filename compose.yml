@@ -24,6 +24,9 @@ services:
     ports:
       - ${SCAIFE_VIEWER_PORT:-8000}:8000
     restart: on-failure:3
+    volumes:
+      - sv-atlas-data:/opt/scaife-viewer/src/atlas_data
+      - sv-cts-data:/opt/scaife-viewer/src/data/cts
 
   scaife-postgres:
     image: postgres:18.3-alpine
@@ -72,3 +75,5 @@ services:
 volumes:
   sv-postgres-data:
   sv-elasticsearch-data:
+  sv-atlas-data:
+  sv-cts-data:
