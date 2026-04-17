@@ -95,6 +95,19 @@ To run the ElasticSearch indexer:
 pythong manage.py indexer --max-workers=1 --limit=1000
 ```
 
+As of 2026-04-16: Although this command seemingly runs without issue as part of
+`scaife-viewer/deploy/entrypoint.sh`, it seems to be necessary to run it
+manually after the Podman containers are running. If that happens, you
+will also need to prepare the ATLAS DB manually. To do so, use
+
+```sh
+podman compose exec scaife-viewer python manage.py prepare_atlas_db --force
+podman compose exec scaife-viewer python manage.py indexer --max-workers=1 --limit=1000
+```
+
+DON'T GET GREEDY WITH WORKERS. This will take a while, but that's better than
+crashing the server.
+
 ## LICENSE
 
 The MIT License
