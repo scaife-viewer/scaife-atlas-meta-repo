@@ -102,7 +102,7 @@ will also need to prepare the ATLAS DB manually. To do so, use
 
 ```sh
 podman compose exec scaife-viewer python manage.py prepare_atlas_db --force
-podman compose exec scaife-viewer python manage.py indexer --max-workers=1 --limit=1000
+podman compose exec scaife-viewer python manage.py indexer --max-workers=1
 ```
 
 DON'T GET GREEDY WITH WORKERS. This will take a while, but that's better than
