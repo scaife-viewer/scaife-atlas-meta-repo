@@ -92,7 +92,7 @@ crashed servers.
 To run the ElasticSearch indexer:
 
 ```sh
-pythong manage.py indexer --max-workers=1 --limit=1000
+python manage.py indexer --max-workers=1
 ```
 
 As of 2026-04-16: Although this command seemingly runs without issue as part of
