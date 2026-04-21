@@ -169,7 +169,7 @@ Then, as your regular user:
 - Restart the systemd service
 
 ```sh
-systemctl --user -M serviceusername@ start 'podman-compse@scaife-atlas-meta-repo'
+systemctl --user -M serviceusername@ restart 'podman-compse@scaife-atlas-meta-repo'
 ```
 
 ## LICENSE
