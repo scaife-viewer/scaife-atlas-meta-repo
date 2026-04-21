@@ -138,18 +138,39 @@ systemctl --user -M serviceusername@ stop 'podman-compse@scaife-atlas-meta-repo'
 To check the status of the service:
 
 ```sh
-```sh
 systemctl --user -M serviceusername@ status 'podman-compse@scaife-atlas-meta-repo'
 ```
 
 And to restart the service:
 
 ```sh
+systemctl --user -M serviceusername@ start 'podman-compse@scaife-atlas-meta-repo'
+```
+
+### Updating the application
+
+
+As the service user:
+
+- Pull in changes from GitHub
+
+```sh
+git submodule update --remote
+```
+
+- Rebuild the containers
+
+```sh
+podman compose build
+```
+
+Then, as your regular user:
+
+- Restart the systemd service
+
 ```sh
 systemctl --user -M serviceusername@ start 'podman-compse@scaife-atlas-meta-repo'
 ```
-```
-
 
 ## LICENSE
 
