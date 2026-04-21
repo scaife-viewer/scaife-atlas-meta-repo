@@ -11,7 +11,14 @@ It has three main goals:
 2. Create reproducible and testable builds via podman and `podman compose`
 3. Make both services more infrastructure-agnostic
 
-## Deployment
+## Contents
+
+- [Development](#development)
+- [Deployment](#deployment)
+- [LICENSE](#license)
+
+
+## Development
 
 ### Dependencies
 
@@ -107,6 +114,42 @@ podman compose exec scaife-viewer python manage.py indexer --max-workers=1
 
 DON'T GET GREEDY WITH WORKERS. This will take a while, but that's better than
 crashing the server.
+
+## Deployment
+
+The application is run under a service user on the server. The process for enabling systemd for this
+user can be somewhat complicated, but the following
+has worked as of 2026-04-21:
+
+1. As root (using `sudo`), run `podman-compose systemd -a create-unit`
+2. As the service user (`sudo su - serviceusername`) and in this directory, run `podman-compose -f compose.yml systemd -a register`. (The previous command
+should have told you that you can run a command like this one.)
+3. Finally, as your normal user, run `systemctl --user -M serviceusername@ status 'podman-compose@scaife-atlas-meta-repo'`
+
+Obviously, replace `serviceusername` in the above with
+the actual name of your service user.
+
+To stop the service once it has started, run
+
+```sh
+systemctl --user -M serviceusername@ stop 'podman-compse@scaife-atlas-meta-repo'
+```
+
+To check the status of the service:
+
+```sh
+```sh
+systemctl --user -M serviceusername@ status 'podman-compse@scaife-atlas-meta-repo'
+```
+
+And to restart the service:
+
+```sh
+```sh
+systemctl --user -M serviceusername@ start 'podman-compse@scaife-atlas-meta-repo'
+```
+```
+
 
 ## LICENSE
 
