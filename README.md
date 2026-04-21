@@ -124,7 +124,7 @@ has worked as of 2026-04-21:
 1. As root (using `sudo`), run `podman-compose systemd -a create-unit`
 2. As the service user (`sudo su - serviceusername`) and in this directory, run `podman-compose -f compose.yml systemd -a register`. (The previous command
 should have told you that you can run a command like this one.)
-3. Finally, as your normal user, run `systemctl --user -M serviceusername@ status 'podman-compose@scaife-atlas-meta-repo'`
+3. Finally, as your normal user, run `systemctl --user -M serviceusername@ enable --now 'podman-compose@scaife-atlas-meta-repo'`
 
 Obviously, replace `serviceusername` in the above with
 the actual name of your service user.
