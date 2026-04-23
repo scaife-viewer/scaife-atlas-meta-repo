@@ -161,7 +161,7 @@ git submodule update --remote
 - Rebuild the containers
 
 ```sh
-podman compose build
+podman compose build --no-cache
 ```
 
 Then, as your regular user:
