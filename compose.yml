@@ -12,6 +12,7 @@ services:
   scaife-pgbouncer:
     image: edoburu/pgbouncer
     environment:
+      AUTH_TYPE: scram-sha-256
       DB_HOST: scaife-postgres
       DB_USER: ${POSTGRES_USER:-scaife}
       DB_PASSWORD: ${POSTGRES_PASSWORD}

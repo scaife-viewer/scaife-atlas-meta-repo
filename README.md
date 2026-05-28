@@ -132,19 +132,19 @@ the actual name of your service user.
 To stop the service once it has started, run
 
 ```sh
-systemctl --user -M serviceusername@ stop 'podman-compse@scaife-atlas-meta-repo'
+systemctl --user -M serviceusername@ stop 'podman-compose@scaife-atlas-meta-repo'
 ```
 
 To check the status of the service:
 
 ```sh
-systemctl --user -M serviceusername@ status 'podman-compse@scaife-atlas-meta-repo'
+systemctl --user -M serviceusername@ status 'podman-compose@scaife-atlas-meta-repo'
 ```
 
 And to restart the service:
 
 ```sh
-systemctl --user -M serviceusername@ start 'podman-compse@scaife-atlas-meta-repo'
+systemctl --user -M serviceusername@ start 'podman-compose@scaife-atlas-meta-repo'
 ```
 
 ### Updating the application
@@ -171,6 +171,9 @@ Then, as your regular user:
 ```sh
 systemctl --user -M serviceusername@ restart 'podman-compose@scaife-atlas-meta-repo'
 ```
+
+ExecStartPre=/usr/bin/podman-compose up --no-start
+ExecStartPre=/usr/bin/podman pod start pod_%i
 
 ## LICENSE
 
