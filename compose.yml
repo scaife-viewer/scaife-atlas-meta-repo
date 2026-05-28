@@ -3,20 +3,35 @@ services:
 
   new-atlas:
     build: ./new-atlas/server
-    command: "gunicorn --bind :8082 atlas.wsgi"
+    command: "gunicorn --bind :8082 --workers 3 atlas.wsgi"
     env_file: new-atlas.env
     ports:
       - ${NEW_ATLAS_PORT:-8082}:8082
+    restart: always
+
+  scaife-pgbouncer:
+    image: edoburu/pgbouncer
+    environment:
+      DB_HOST: scaife-postgres
+      DB_USER: ${POSTGRES_USER:-scaife}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB:-scaife}
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 100
+      DEFAULT_POOL_SIZE: 20
+    depends_on:
+      scaife-postgres:
+        condition: service_healthy
     restart: always
 
   scaife-viewer:
     build:
       context: ./scaife-viewer
       dockerfile: Dockerfile
-    command: "gunicorn --log-file=- --preload sv_pdl.wsgi"
+    command: "gunicorn --log-file=- --preload --workers 5 sv_pdl.wsgi"
     depends_on:
-      scaife-postgres:
-        condition: service_healthy
+      scaife-pgbouncer:
+        condition: service_started
       scaife-elasticsearch:
         condition: service_healthy
     entrypoint: deploy/entrypoint.sh
