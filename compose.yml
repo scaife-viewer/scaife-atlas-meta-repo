@@ -1,6 +1,12 @@
 
 services:
 
+  scaife-redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - sv-redis-data:/data
+
   new-atlas:
     build: ./new-atlas/server
     command: "gunicorn --bind :8082 --workers 3 atlas.wsgi"
@@ -35,8 +41,12 @@ services:
         condition: service_started
       scaife-elasticsearch:
         condition: service_healthy
+      scaife-redis:
+        condition: service_started
     entrypoint: deploy/entrypoint.sh
     env_file: .env
+    environment:
+      REDIS_URL: redis://scaife-redis:6379/1
     ports:
       - ${SCAIFE_VIEWER_PORT:-8000}:8000
     restart: always
@@ -93,3 +103,4 @@ volumes:
   sv-elasticsearch-data:
   sv-atlas-data:
   sv-cts-data:
+  sv-redis-data:
