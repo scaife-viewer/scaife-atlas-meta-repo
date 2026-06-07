@@ -1,0 +1,12 @@
+[Unit]
+Description=Pull updated images and redeploy scaife-atlas-meta-repo
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Adjust this path to wherever perseus has the repo checked out
+WorkingDirectory=%h/scaife-atlas-meta-repo
+ExecStart=podman compose pull
+ExecStartPost=podman compose up -d
+StandardOutput=journal
+StandardError=journal

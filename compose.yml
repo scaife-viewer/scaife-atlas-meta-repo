@@ -8,6 +8,7 @@ services:
       - sv-redis-data:/data
 
   new-atlas:
+    image: ghcr.io/scaife-viewer/scaife-atlas-meta-repo/new-atlas:latest
     build: ./new-atlas/server
     command: "gunicorn --bind :8082 --workers 3 atlas.wsgi"
     env_file: new-atlas.env
@@ -32,6 +33,7 @@ services:
     restart: always
 
   scaife-viewer:
+    image: ghcr.io/scaife-viewer/scaife-atlas-meta-repo/scaife-viewer:latest
     build:
       context: ./scaife-viewer
       dockerfile: Dockerfile
@@ -73,6 +75,7 @@ services:
       - ./docker/postgres/init-scaife-viewer-db.sql:/docker-entrypoint-initdb.d/init-scaife-viewer-db.sql:z
 
   scaife-elasticsearch:
+    image: ghcr.io/scaife-viewer/scaife-atlas-meta-repo/scaife-elasticsearch:latest
     build:
       context: ./scaife-viewer
       dockerfile: Dockerfile-elasticsearch
