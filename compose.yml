@@ -36,7 +36,7 @@ services:
       context: ./scaife-viewer
       dockerfile: Dockerfile
       target: search-index
-    command: "gunicorn --log-file=- --preload --workers 5 sv_pdl.wsgi"
+    command: "gunicorn --preload --workers 5 sv_pdl.wsgi"
     depends_on:
       scaife-pgbouncer:
         condition: service_started
