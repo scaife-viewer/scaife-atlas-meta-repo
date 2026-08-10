@@ -54,6 +54,7 @@ services:
     volumes:
       - sv-atlas-data:/opt/scaife-viewer/src/atlas_data
       - sv-cts-data:/opt/scaife-viewer/src/data/cts
+      - sv-viewer-logs:/opt/scaife-viewer/src/logs
 
   scaife-postgres:
     image: postgres:18.3-alpine
@@ -106,3 +107,4 @@ volumes:
   sv-atlas-data:
   sv-cts-data:
   sv-redis-data:
+  sv-viewer-logs:
