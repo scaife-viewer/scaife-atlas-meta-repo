@@ -31,6 +31,30 @@ It has three main goals:
 - Docker images (these are already configured in `compose.yml`)
   - ElasticSearch
   - PostgreSQL
+  - [Anubis](https://anubis.techaro.lol/) (bot-blocking reverse proxy in front
+    of `new-atlas` and `scaife-viewer`)
+
+### Bot blocking with Anubis
+
+Both public-facing services (`new-atlas` and `scaife-viewer`) are fronted by
+their own [Anubis](https://anubis.techaro.lol/docs/admin/environments/docker-compose/)
+instance (`anubis-new-atlas` and `anubis-scaife-viewer`), which challenges
+suspected bot traffic before it reaches the application containers. The
+`new-atlas` and `scaife-viewer` services no longer publish ports directly to
+the host — only the Anubis containers do, on the same host ports
+(`NEW_ATLAS_PORT` / `SCAIFE_VIEWER_PORT`) that the apps used previously.
+
+The production `scaife-viewer` instance is served under two different apex
+domains (`scaife.perseus.org` and `scaife.perseus.tufts.edu`), so
+`anubis-scaife-viewer` uses `COOKIE_DYNAMIC_DOMAIN: "true"` (rather than a
+fixed `COOKIE_DOMAIN`) so the challenge-pass cookie is scoped to whichever
+domain the request actually came in on.
+
+To customize the bot policy, drop a `botPolicy.yaml` in the repo root and
+mount it into the relevant Anubis service with `POLICY_FNAME` and a
+`volumes` entry (see the [policy file docs](https://anubis.techaro.lol/docs/admin/policies/)
+and the [environment variable reference](https://anubis.techaro.lol/docs/admin/installation/)
+for available options).
 
 ### Required Manual Interventions
 

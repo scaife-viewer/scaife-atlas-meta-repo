@@ -11,8 +11,29 @@ services:
     build: ./new-atlas/server
     command: "gunicorn --bind :8082 --workers 3 atlas.wsgi"
     env_file: new-atlas.env
+    restart: always
+
+  anubis-new-atlas:
+    image: ghcr.io/techarohq/anubis:latest
+    environment:
+      BIND: ":8080"
+      DIFFICULTY: "4"
+      METRICS_BIND: ":9090"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://new-atlas:8082"
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    depends_on:
+      new-atlas:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
     ports:
-      - ${NEW_ATLAS_PORT:-8082}:8082
+      - ${NEW_ATLAS_PORT:-8082}:8080
     restart: always
 
   scaife-pgbouncer:
@@ -48,13 +69,35 @@ services:
     env_file: .env
     environment:
       REDIS_URL: redis://scaife-redis:6379/1
-    ports:
-      - ${SCAIFE_VIEWER_PORT:-8000}:8000
     restart: always
     volumes:
       - sv-atlas-data:/opt/scaife-viewer/src/atlas_data
       - sv-cts-data:/opt/scaife-viewer/src/data/cts
       - sv-viewer-logs:/opt/scaife-viewer/src/logs
+
+  anubis-scaife-viewer:
+    image: ghcr.io/techarohq/anubis:latest
+    environment:
+      BIND: ":8080"
+      COOKIE_DYNAMIC_DOMAIN: "true"
+      DIFFICULTY: "4"
+      METRICS_BIND: ":9090"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://scaife-viewer:8000"
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    depends_on:
+      scaife-viewer:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    ports:
+      - ${SCAIFE_VIEWER_PORT:-8000}:8080
+    restart: always
 
   scaife-postgres:
     image: postgres:18.3-alpine
