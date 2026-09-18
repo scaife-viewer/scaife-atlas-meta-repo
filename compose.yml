@@ -23,6 +23,7 @@ services:
       TARGET: "http://new-atlas:8082"
       OG_PASSTHROUGH: "true"
       OG_EXPIRY_TIME: "24h"
+      SLOG_LEVEL: "DEBUG"
     depends_on:
       new-atlas:
         condition: service_started
@@ -86,6 +87,7 @@ services:
       TARGET: "http://scaife-viewer:8000"
       OG_PASSTHROUGH: "true"
       OG_EXPIRY_TIME: "24h"
+      SLOG_LEVEL: "DEBUG"
     depends_on:
       scaife-viewer:
         condition: service_started
