@@ -1,0 +1,16 @@
+bots:
+  # Tufts' own campus network runs web-filtering/security infrastructure that
+  # pre-fetches links before relaying them to the browser. That consumes
+  # Anubis's one-time challenge-pass token before the real request arrives,
+  # so on-campus users always hit "double spend prevented" and can never pass
+  # the JS challenge (see https://github.com/TecharoHQ/anubis/issues/1250).
+  # Allowlist Tufts' announced ranges (AS13326) so this traffic skips the
+  # challenge entirely instead of getting stuck behind it.
+  - name: tufts-university-network
+    action: ALLOW
+    remote_addresses:
+      - "130.64.0.0/16"
+      - "38.97.110.208/29"
+      - "2607:f570::/32"
+
+  - import: (data)/meta/default-config.yaml
