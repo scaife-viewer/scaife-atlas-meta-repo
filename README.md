@@ -59,7 +59,9 @@ for available options).
 ### Required Manual Interventions
 
 1. Update submodules: `git submodule update --remote`
-2. Upload [ATLAS data](#atlas-data) gzip to host and unzip to
+2. Create the env files from their examples and change the secrets:
+   `cp .env.example .env && cp new-atlas.env.example new-atlas.env`
+3. Upload [ATLAS data](#atlas-data) gzip to host and unzip to
    `./new-atlas/server/`: `tar xzvf atlas-data.tar.gz -C new-atlas/server/`
 
 #### ATLAS data
